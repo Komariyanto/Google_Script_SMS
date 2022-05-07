@@ -1,0 +1,293 @@
+function sppdFunction() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Form");
+  var rowNo = sheet.getLastRow();
+  var colBerangkat = (142);
+  var colDatang = (143);
+  var colPulang = (144);
+  var colSmpDengan = (5);
+  var colIduka = (15);
+  var colGuru = (24);
+  var colRekapSiswa = (43);
+  var colSiswa1 = (44);
+  var colNoUrut = (62);
+  var colTahun = (63);
+  var colTanggal = (64);
+  var colJam = (65);
+  var colALamatIduka = (66);
+  var colNip = (67);
+  var colPangkat = (68);
+  var colKkLong = (69);
+  var colJmlHari = (70);  
+  var singleAphosthrope = String('"')
+  var doubleAphosthrope = String('""')
+
+//Kolom data TAHUN, TANGGAL, JAM    (OK DONE)   
+
+  sheet.getRange(rowNo,colTahun).setValue("=text(A"+rowNo+";"+singleAphosthrope+"YYYY"+singleAphosthrope+")");
+  sheet.getRange(rowNo,colTanggal).setValue("=text(A"+rowNo+";"+singleAphosthrope+"DD MMMM YYYY"+singleAphosthrope+")");
+  sheet.getRange(rowNo,colJam).setValue("=text(A"+rowNo+";"+singleAphosthrope+"hh:mm"+singleAphosthrope+")");
+
+
+
+// TEXT BERANGKAT  untuk diisikan di SPPD
+sheet.getRange(rowNo,colBerangkat).setValue("=text(C"+rowNo+";"+singleAphosthrope+"DDDD,DD Mmmm YYYY"+singleAphosthrope+")");
+
+// TEXT Sampai Dengan untuk diisikan di SPPD
+sheet.getRange(rowNo,colSmpDengan).setValue("=If(D"+rowNo+"="+doubleAphosthrope+";"+doubleAphosthrope+";("+singleAphosthrope+"sampai dengan  "+singleAphosthrope+"&text(D"+rowNo+";"+singleAphosthrope+"DDDD, DD Mmmm YYYY"+singleAphosthrope+")))");
+
+// TEXT DATANG untuk diisikan di SPPD
+sheet.getRange(rowNo,colDatang).setValue("=If(C"+rowNo+"<>"+doubleAphosthrope+";text(C"+rowNo+";"+singleAphosthrope+"DD Mmmm YYYY"+singleAphosthrope+");"+doubleAphosthrope+")")
+
+
+// TEXT PULANG untuk diisikan di SPPD
+sheet.getRange(rowNo,colPulang).setValue("=If(D"+rowNo+"="+doubleAphosthrope+";text(C"+rowNo+";"+singleAphosthrope+"DD Mmmm YYYY"+singleAphosthrope+");text(D"+rowNo+";"+singleAphosthrope+"DD Mmmm YYYY"+singleAphosthrope+"))");
+
+// Col M-N, Merge to IDUKA to Col O
+  sheet.getRange(rowNo,colIduka).setValue("=G"+rowNo+"&H"+rowNo+"&I"+rowNo+"&J"+rowNo+"&K"+rowNo+"&L"+rowNo+"&M"+rowNo+"&N"+rowNo);
+
+// Col P-W, Merge to GURU to Col X
+  sheet.getRange(rowNo,colGuru).setValue("=P"+rowNo+"&Q"+rowNo+"&R"+rowNo+"&S"+rowNo+"&T"+rowNo+"&U"+rowNo+"&V"+rowNo+"&W"+rowNo);
+
+// Col Y-AO, Merge to REKAP SISWA to Col AO
+  sheet.getRange(rowNo,colRekapSiswa).setValue("=Y"+rowNo+"&"+singleAphosthrope+","+singleAphosthrope+"&Z"+rowNo+"&"+singleAphosthrope+","+singleAphosthrope+"&AA"+rowNo+"&"+singleAphosthrope+","+singleAphosthrope+"&AB"+rowNo+"&"+singleAphosthrope+","+singleAphosthrope+"&AC"+rowNo+"&"+singleAphosthrope+","+singleAphosthrope+"&AD"+rowNo+"&"+singleAphosthrope+","+singleAphosthrope+"&AE"+rowNo+"&"+singleAphosthrope+","+singleAphosthrope+"&AF"+rowNo+"&"+singleAphosthrope+","+singleAphosthrope+"&AG"+rowNo+"&"+singleAphosthrope+","+singleAphosthrope+"&AH"+rowNo+"&"+singleAphosthrope+","+singleAphosthrope+"&AI"+rowNo+"&"+singleAphosthrope+","+singleAphosthrope+"&AJ"+rowNo+"&"+singleAphosthrope+","+singleAphosthrope+"&AK"+rowNo+"&"+singleAphosthrope+","+singleAphosthrope+"&AL"+rowNo+"&"+singleAphosthrope+","+singleAphosthrope+"&AM"+rowNo+"&"+singleAphosthrope+","+singleAphosthrope+"&AN"+rowNo+"&"+singleAphosthrope+","+singleAphosthrope+"&AO"+rowNo);
+
+//FORMULA MENGHILANGKAN TANDA KOMA DOUBLE
+sheet.getRange(rowNo,colSiswa1).setValue("=substitute(substitute(substitute(substitute(substitute(substitute(substitute(AQ"+rowNo+";"+singleAphosthrope+",,,,,,,"+singleAphosthrope+";"+singleAphosthrope+","+singleAphosthrope+");"+singleAphosthrope+",,,,,,"+singleAphosthrope+";"+singleAphosthrope+","+singleAphosthrope+");"+singleAphosthrope+",,,,,"+singleAphosthrope+";"+singleAphosthrope+","+singleAphosthrope+");"+singleAphosthrope+",,,,"+singleAphosthrope+";"+singleAphosthrope+","+singleAphosthrope+");"+singleAphosthrope+",,,"+singleAphosthrope+";"+singleAphosthrope+","+singleAphosthrope+");"+singleAphosthrope+",,"+singleAphosthrope+";"+singleAphosthrope+","+singleAphosthrope+");"+singleAphosthrope+", "+singleAphosthrope+";"+singleAphosthrope+","+singleAphosthrope+")");
+  
+// SplitTextToCell (OK DONE) HARUS MUNCUL DUA KALI (BARIS 56)
+// Belum tahu alasannya kenapa harus muncul 2 kali
+
+    sheet.getRange(rowNo,colSiswa1).splitTextToColumns(',');
+
+//Kolom data NOMOR URUT (OK DONE)
+
+  sheet.getRange(rowNo,colNoUrut).setValue("=if(A"+rowNo+"<>"+doubleAphosthrope+";ROW(A"+rowNo+")-1;"+doubleAphosthrope+")");
+
+//Kolom Vlookup Alamat Iduka, NIP, Pangkat-Golongan (OK DONE)
+//Komp. Kelahlian LONG
+
+  sheet.getRange(rowNo,colALamatIduka).setValue("=vlookup((O"+rowNo+");'DATA IDUKA'!F1:G607;2;FALSE)");
+  sheet.getRange(rowNo,colNip).setValue("=vlookup((X"+rowNo+");'DATA GURU'!C1:F63;2;FALSE)")
+  sheet.getRange(rowNo,colPangkat).setValue("=vlookup((X"+rowNo+");'DATA GURU'!C1:F63;3;FALSE)")
+  sheet.getRange(rowNo,colKkLong).setValue("=vlookup((X"+rowNo+");'DATA GURU'!C1:F63;4;FALSE)");
+
+// SplitTextToCell
+
+  sheet.getRange(rowNo,colSiswa1).splitTextToColumns(',');
+
+// Jumlah Hari : Solved 2 Syawal 1443 H, 3 Mei 2022
+// FORMULA MASTER  ASLI  =IF(D4="";1;IF(D4=C4;1;IF(D4<>"";DATEDIF(C4;D4;"D");"")))
+
+  sheet.getRange(rowNo,colJmlHari).setValue("=If(D"+rowNo+"="+doubleAphosthrope+";1;IF(D"+rowNo+"=C"+rowNo+";1;IF(D"+rowNo+"<>"+doubleAphosthrope+";DATEDIF(C"+rowNo+";D"+rowNo+";"+singleAphosthrope+"D"+singleAphosthrope+");"+doubleAphosthrope+")))");
+
+// Kolom siswa dimulai dari AQ sd BH (18 siswa)
+// Nomor Kolom 43  sd 61
+// NIS Lookup Kolom 2
+// (Jika mau ditambah, NISN Lookup Kolom 3)
+// Kelas Lookup Kolom 4
+
+  var colNisSiswa1 = (71); 
+  var colKlsSiswa1 = (72);
+  var colUrtSiswa1 = (73);
+
+  sheet.getRange(rowNo,colNisSiswa1).setValue("=if(AR"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AR"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+   sheet.getRange(rowNo,colKlsSiswa1).setValue("=if(AR"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AR"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colUrtSiswa1).setValue("=IF(AR"+rowNo+"<>"+doubleAphosthrope+";1;"+singleAphosthrope+" --- "+singleAphosthrope+")");
+  
+// Kolom Siswa2
+  
+  var colNisSiswa2 = (74); 
+  var colKlsSiswa2 = (75);
+  var colUrtSiswa2 = (76);
+  var colFx2 = (77);
+
+  sheet.getRange(rowNo,colNisSiswa2).setValue("=if(AS"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AS"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colKlsSiswa2).setValue("=if(AS"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AS"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+
+// Gunakan FORMULA ini =if(AND(AR3="";AS3="");"";IF(AND(AR3="";AS3<>"");1;BU3+1))
+
+  sheet.getRange(rowNo,colUrtSiswa2).setValue("=if(AND(AR"+rowNo+"="+doubleAphosthrope+";AS"+rowNo+"="+doubleAphosthrope+");"+singleAphosthrope+" --- "+singleAphosthrope+";IF(AND(AR"+rowNo+"="+doubleAphosthrope+";AS"+rowNo+"<>"+doubleAphosthrope+");1;BU"+rowNo+"+1))");
+  
+  sheet.getRange(rowNo,colFx2).setValue("=if(AND(AR"+rowNo+"="+doubleAphosthrope+";AS"+rowNo+"="+doubleAphosthrope+");"+doubleAphosthrope+";IF(AND(AR"+rowNo+"="+doubleAphosthrope+";AS"+rowNo+"<>"+doubleAphosthrope+");1;BU"+rowNo+"+1))");
+
+// Kolom Siswa3
+  var colNisSiswa3 = (78); 
+  var colKlsSiswa3 = (79);
+  var colUrtSiswa3 = (80);
+  var colFx3 = (81);
+ 
+  sheet.getRange(rowNo,colNisSiswa3).setValue("=if(AT"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AT"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+   sheet.getRange(rowNo,colKlsSiswa3).setValue("=if(AT"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AT"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colUrtSiswa3).setValue("=if(AT"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";BY"+rowNo+"+1)")
+  sheet.getRange(rowNo,colFx3).setValue("=if(AT"+rowNo+"="+doubleAphosthrope+";BY"+rowNo+";BY"+rowNo+"+1)");
+
+// Kolom Siswa4
+  var colNisSiswa4 = (82); 
+  var colKlsSiswa4 = (83);
+  var colUrtSiswa4 = (84);
+  var colFx4 = (85);
+ 
+  sheet.getRange(rowNo,colNisSiswa4).setValue("=if(AU"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AU"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+   sheet.getRange(rowNo,colKlsSiswa4).setValue("=if(AU"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AU"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colUrtSiswa4).setValue("=if(AU"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";CC"+rowNo+"+1)")
+  sheet.getRange(rowNo,colFx4).setValue("=if(AU"+rowNo+"="+doubleAphosthrope+";CC"+rowNo+";CC"+rowNo+"+1)");
+
+// Kolom Siswa5
+  var colNisSiswa5 = (86); 
+  var colKlsSiswa5 = (87);
+  var colUrtSiswa5 = (88);
+  var colFx5 = (89);
+ 
+  sheet.getRange(rowNo,colNisSiswa5).setValue("=if(AV"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AV"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+   sheet.getRange(rowNo,colKlsSiswa5).setValue("=if(AV"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AV"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colUrtSiswa5).setValue("=if(AV"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";CG"+rowNo+"+1)")
+  sheet.getRange(rowNo,colFx5).setValue("=if(AV"+rowNo+"="+doubleAphosthrope+";CG"+rowNo+";CG"+rowNo+"+1)");
+
+// Kolom Siswa6
+  var colNisSiswa6 = (90); 
+  var colKlsSiswa6 = (91);
+  var colUrtSiswa6 = (92);
+  var colFx6 = (93);
+ 
+  sheet.getRange(rowNo,colNisSiswa6).setValue("=if(AW"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AW"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+   sheet.getRange(rowNo,colKlsSiswa6).setValue("=if(AX"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AW"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colUrtSiswa6).setValue("=if(AW"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";CK"+rowNo+"+1)")
+  sheet.getRange(rowNo,colFx6).setValue("=if(AW"+rowNo+"="+doubleAphosthrope+";CK"+rowNo+";CK"+rowNo+"+1)");
+    
+    // Kolom Siswa7
+  var colNisSiswa7 = (94); 
+  var colKlsSiswa7 = (95);
+  var colUrtSiswa7 = (96);
+  var colFx7 = (97);
+  
+  sheet.getRange(rowNo,colNisSiswa7).setValue("=if(AX"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AX"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+   sheet.getRange(rowNo,colKlsSiswa7).setValue("=if(AX"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AX"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colUrtSiswa7).setValue("=if(AX"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";CO"+rowNo+"+1)")
+  sheet.getRange(rowNo,colFx7).setValue("=if(AX"+rowNo+"="+doubleAphosthrope+";CO"+rowNo+";CO"+rowNo+"+1)");
+ 
+  // Kolom Siswa8
+  var colNisSiswa8 = (98); 
+  var colKlsSiswa8 = (99);
+  var colUrtSiswa8 = (100);
+  var colFx8 = (101);
+  
+  sheet.getRange(rowNo,colNisSiswa8).setValue("=if(AY"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AY"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+   sheet.getRange(rowNo,colKlsSiswa8).setValue("=if(AY"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AY"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colUrtSiswa8).setValue("=if(AY"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";CS"+rowNo+"+1)")
+  sheet.getRange(rowNo,colFx8).setValue("=if(AY"+rowNo+"="+doubleAphosthrope+";CS"+rowNo+";CS"+rowNo+"+1)");
+ 
+// Kolom Siswa9
+  var colNisSiswa9 = (102); 
+  var colKlsSiswa9 = (103);
+  var colUrtSiswa9 = (104);
+  var colFx9 = (105);
+    
+  sheet.getRange(rowNo,colNisSiswa9).setValue("=if(AZ"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AZ"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+   sheet.getRange(rowNo,colKlsSiswa9).setValue("=if(AZ"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(AZ"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colUrtSiswa9).setValue("=if(AZ"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";CW"+rowNo+"+1)")
+  sheet.getRange(rowNo,colFx9).setValue("=if(AZ"+rowNo+"="+doubleAphosthrope+";CW"+rowNo+";CW"+rowNo+"+1)");
+  
+
+ // Kolom Siswa10
+  var colNisSiswa10 = (106); 
+  var colKlsSiswa10 = (107);
+  var colUrtSiswa10 = (108);
+  var colFx10 = (109);
+ 
+   sheet.getRange(rowNo,colNisSiswa10).setValue("=if(BA"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BA"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+   sheet.getRange(rowNo,colKlsSiswa10).setValue("=if(BA"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BA"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colUrtSiswa10).setValue("=if(BA"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";DA"+rowNo+"+1)")
+  sheet.getRange(rowNo,colFx10).setValue("=if(BA"+rowNo+"="+doubleAphosthrope+";DA"+rowNo+";DA"+rowNo+"+1)");
+   
+// Kolom Siswa11
+  var colNisSiswa11 = (110); 
+  var colKlsSiswa11 = (111);
+  var colUrtSiswa11 = (112);
+  var colFx11 = (113);
+ 
+   sheet.getRange(rowNo,colNisSiswa11).setValue("=if(BB"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BB"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+   sheet.getRange(rowNo,colKlsSiswa11).setValue("=if(BB"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BB"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colUrtSiswa11).setValue("=if(BB"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";DE"+rowNo+"+1)")
+  sheet.getRange(rowNo,colFx11).setValue("=if(BB"+rowNo+"="+doubleAphosthrope+";DE"+rowNo+";DE"+rowNo+"+1)");
+     
+// Kolom Siswa12
+  var colNisSiswa12 = (114); 
+  var colKlsSiswa12 = (115);
+  var colUrtSiswa12 = (116);
+  var colFx12 = (117);
+ 
+  sheet.getRange(rowNo,colNisSiswa12).setValue("=if(BC"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BC"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+   sheet.getRange(rowNo,colKlsSiswa12).setValue("=if(BC"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BC"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colUrtSiswa12).setValue("=if(BC"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";DI"+rowNo+"+1)")
+  sheet.getRange(rowNo,colFx12).setValue("=if(BC"+rowNo+"="+doubleAphosthrope+";DI"+rowNo+";DI"+rowNo+"+1)");
+  
+// Kolom Siswa13
+  var colNisSiswa13 = (118); 
+  var colKlsSiswa13 = (119);
+  var colUrtSiswa13 = (120);
+  var colFx13 = (121);
+ 
+ sheet.getRange(rowNo,colNisSiswa13).setValue("=if(BD"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BD"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+   sheet.getRange(rowNo,colKlsSiswa13).setValue("=if(BD"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BD"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colUrtSiswa13).setValue("=if(BD"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";DM"+rowNo+"+1)")
+  sheet.getRange(rowNo,colFx13).setValue("=if(BD"+rowNo+"="+doubleAphosthrope+";DM"+rowNo+";DM"+rowNo+"+1)");
+ 
+// Kolom Siswa14
+  var colNisSiswa14 = (122); 
+  var colKlsSiswa14 = (123);
+  var colUrtSiswa14 = (124);
+  var colFx14 = (125);
+ 
+   sheet.getRange(rowNo,colNisSiswa14).setValue("=if(BE"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BE"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+   sheet.getRange(rowNo,colKlsSiswa14).setValue("=if(BE"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BE"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colUrtSiswa14).setValue("=if(BE"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";DQ"+rowNo+"+1)")
+  sheet.getRange(rowNo,colFx14).setValue("=if(BE"+rowNo+"="+doubleAphosthrope+";DQ"+rowNo+";DQ"+rowNo+"+1)");
+
+// Kolom Siswa15
+  var colNisSiswa15 = (126); 
+  var colKlsSiswa15 = (127);
+  var colUrtSiswa15 = (128);
+  var colFx15 = (129);
+ 
+   sheet.getRange(rowNo,colNisSiswa15).setValue("=if(BF"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BF"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+   sheet.getRange(rowNo,colKlsSiswa15).setValue("=if(BF"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BF"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colUrtSiswa15).setValue("=if(BF"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";DU"+rowNo+"+1)")
+  sheet.getRange(rowNo,colFx15).setValue("=if(BF"+rowNo+"="+doubleAphosthrope+";DU"+rowNo+";DU"+rowNo+"+1)");
+
+// Kolom Siswa16
+  var colNisSiswa16 = (130); 
+  var colKlsSiswa16 = (131);
+  var colUrtSiswa16 = (132);
+  var colFx16 = (133);
+ 
+   sheet.getRange(rowNo,colNisSiswa16).setValue("=if(BG"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BG"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+   sheet.getRange(rowNo,colKlsSiswa16).setValue("=if(BG"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BG"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colUrtSiswa16).setValue("=if(BG"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";DY"+rowNo+"+1)")
+  sheet.getRange(rowNo,colFx16).setValue("=if(BG"+rowNo+"="+doubleAphosthrope+";DY"+rowNo+";DY"+rowNo+"+1)"); 
+
+// Kolom Siswa17
+  var colNisSiswa17 = (134); 
+  var colKlsSiswa17 = (135);
+  var colUrtSiswa17 = (136);
+  var colFx17 = (137);
+ 
+   sheet.getRange(rowNo,colNisSiswa17).setValue("=if(BH"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BH"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+   sheet.getRange(rowNo,colKlsSiswa17).setValue("=if(BH"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BH"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colUrtSiswa17).setValue("=if(BH"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";EC"+rowNo+"+1)")
+  sheet.getRange(rowNo,colFx17).setValue("=if(BH"+rowNo+"="+doubleAphosthrope+";EC"+rowNo+";EC"+rowNo+"+1)"); 
+
+// Kolom Siswa18
+  var colNisSiswa18 = (138); 
+  var colKlsSiswa18 = (139);
+  var colUrtSiswa18 = (140);
+  var colFx18 = (141);
+ 
+   sheet.getRange(rowNo,colNisSiswa18).setValue("=if(BI"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BI"+rowNo+";'DATA IDUKA'!B2:I607;2;"+doubleAphosthrope+"))");
+   sheet.getRange(rowNo,colKlsSiswa18).setValue("=if(BI"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";vlookup(BI"+rowNo+";'DATA IDUKA'!B2:I607;4;"+doubleAphosthrope+"))");
+  sheet.getRange(rowNo,colUrtSiswa18).setValue("=if(BI"+rowNo+"="+doubleAphosthrope+";"+singleAphosthrope+" --- "+singleAphosthrope+";EG"+rowNo+"+1)")
+  sheet.getRange(rowNo,colFx18).setValue("=if(BI"+rowNo+"="+doubleAphosthrope+";EG"+rowNo+";EG"+rowNo+"+1)") 
+
+// Alhamdulillah, Subuh, 4 Mei 2022, 3 Syawal 1443 H Jam. 4.22 WIB
+// DONE, FIX, No Error.
+
+}
